@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>TV Alert Extender</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      width: 300px;
+      padding: 12px;
+      background: #131722;
+      color: #d1d4dc;
+    }
+    h3 { margin: 0 0 8px; }
+    button {
+      width: 100%;
+      padding: 8px;
+      background: #2962ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    button:hover { background: #1e53e5; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    button.secondary { background: #2a2e39; }
+    button.secondary:hover { background: #363a45; }
+    #status {
+      margin-top: 10px;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+    a { color: #2962ff; font-size: 12px; }
+    .row { margin-top: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+    .row input[type="number"] {
+      background: #1e222d;
+      border: 1px solid #2a2e39;
+      border-radius: 3px;
+      color: #d1d4dc;
+      padding: 3px 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>TV Alert Extender</h3>
+
+  <button id="runBtn">Проверить и продлить сейчас</button>
+  <button id="dryRunBtn" class="secondary">Dry run (только показать)</button>
+
+  <div class="row">
+    <label for="limit">Продлить за раз (0 = все):</label>
+    <input type="number" id="limit" min="0" max="200" value="1" style="width:56px;" />
+  </div>
+
+  <div id="status">Готово.</div>
+
+  <div class="row"><a id="optionsLink" href="#">Настройки</a></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
