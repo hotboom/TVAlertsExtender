@@ -4,7 +4,7 @@
 set -e
 cd "$(dirname "$0")"
 
-VERSION=$(grep -oP '"version":\s*"\K[^"]+' manifest.json)
+VERSION=$(python -c "import json;print(json.load(open('manifest.json'))['version'])")
 OUT="tv-alert-extender-${VERSION}.zip"
 
 FILES=(
