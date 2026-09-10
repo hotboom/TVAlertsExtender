@@ -111,7 +111,7 @@ async function runCheck(overrides = {}) {
   const alerts = normalizeAlertList(listRes.raw);
   log(`list_alerts: объектов ${alerts.length}, статус "${listRes.raw?.s ?? "?"}"`);
 
-  if (cfg.dryRun || alerts.length === 0) {
+  if (alerts.length === 0) {
     log("RAW list_alerts (обрезано):");
     log(JSON.stringify(listRes.raw)?.slice(0, 20000));
   }
@@ -125,17 +125,6 @@ async function runCheck(overrides = {}) {
       : `уже истёкшие: ${byTime.length}`) +
       ` | к продлению: ${expiring.length}, пропущено (Stopped — Triggered): ${triggered.length}`
   );
-
-  if (cfg.dryRun) {
-    return {
-      reason: "dry-run",
-      total: alerts.length,
-      expiring: expiring.length,
-      skippedTriggered: triggered.length,
-      extended: 0,
-      wouldExtend: expiring.map(describeAlert),
-    };
-  }
 
   // maxPerRun: 0/undefined = без ограничения. Полезно на первом прогоне.
   const limit = cfg.maxPerRun > 0 ? cfg.maxPerRun : expiring.length;

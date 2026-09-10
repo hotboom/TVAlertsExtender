@@ -24,7 +24,6 @@
       color: #d1d4dc;
       font-size: 14px;
     }
-    .check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; }
     .hint { font-size: 11px; color: #787b86; margin-top: 3px; }
     button {
       margin-top: 20px;
@@ -61,11 +60,6 @@
   <label for="checkIntervalMinutes">Интервал автопроверки (минут)</label>
   <input type="number" id="checkIntervalMinutes" min="15" max="10080" />
   <div class="hint">1440 = раз в сутки. Меняется при следующем запуске расширения.</div>
-
-  <div class="check">
-    <input type="checkbox" id="dryRun" />
-    <label for="dryRun" style="margin:0;">Dry run по умолчанию (ничего не продлевать, только логировать)</label>
-  </div>
 
   <div>
     <button id="save">Сохранить</button>

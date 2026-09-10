@@ -10,7 +10,6 @@ const minValue = { extendByDays: 1, checkIntervalMinutes: 15 };
 async function load() {
   const cfg = await getConfig();
   for (const f of fields) document.getElementById(f).value = cfg[f];
-  document.getElementById("dryRun").checked = cfg.dryRun;
 }
 
 async function save() {
@@ -20,7 +19,6 @@ async function save() {
     const floor = zeroOk.has(f) ? 0 : (minValue[f] ?? 1);
     patch[f] = Number.isFinite(n) && n >= floor ? Math.floor(n) : DEFAULT_CONFIG[f];
   }
-  patch.dryRun = document.getElementById("dryRun").checked;
 
   await setConfig(patch);
 

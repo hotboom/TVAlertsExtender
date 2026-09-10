@@ -13,7 +13,6 @@ const DEFAULT_CONFIG = {
   extendByDays: 30, // на сколько дней продлевать
   checkIntervalMinutes: 1440, // как часто проверять (alarm)
   maxPerRun: 0, // 0 = без ограничения; иначе не больше N продлений за прогон
-  dryRun: false, // true — только показать, что было бы продлено, без запросов на продление
 };
 
 async function getConfig() {
