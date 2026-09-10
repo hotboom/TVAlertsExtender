@@ -275,7 +275,7 @@ function describeAlert(alert) {
 }
 
 function notify(title, message) {
-  chrome.notifications?.create({ type: "basic", iconUrl: "icon.png", title, message });
+  chrome.notifications?.create({ type: "basic", iconUrl: "icon.svg", title, message });
 }
 
 function log(msg) {

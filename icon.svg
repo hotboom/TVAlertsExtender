@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- sound waves -->
+  <g fill="none" stroke="#2962ff" stroke-width="7.5" stroke-linecap="round">
+    <path d="M27 24 C 17 34, 14 48, 18 61"/>
+    <path d="M101 24 C 111 34, 114 48, 110 61"/>
+  </g>
+  <!-- bell -->
+  <path fill="#2962ff" d="M64 8c-4.4 0-8 3.6-8 8v2.7C43.7 21.9 34 34 34 48.4V64c0 6-2.4 11.7-6.7 16-2.8 2.8-.8 7.6 3.2 7.6h67c4 0 6-4.8 3.2-7.6-4.3-4.3-6.7-10-6.7-16V48.4C94 34 84.3 21.9 72 18.7V16c0-4.4-3.6-8-8-8z"/>
+  <!-- infinity ("бессрочный алерт") -->
+  <path fill="none" stroke="#2962ff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"
+        d="M44 104c0-13 13.5-13 20 0 6.5 13 20 13 20 0 0-13-13.5-13-20 0-6.5 13-20 13-20 0z"/>
+</svg>
