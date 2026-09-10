@@ -1,5 +1,4 @@
 const runBtn = document.getElementById("runBtn");
-const limitEl = document.getElementById("limit");
 const statusEl = document.getElementById("status");
 
 document.getElementById("optionsLink").addEventListener("click", (e) => {
@@ -8,15 +7,10 @@ document.getElementById("optionsLink").addEventListener("click", (e) => {
 });
 
 runBtn.addEventListener("click", () => {
-  const maxPerRun = Math.max(0, Number(limitEl.value) || 0);
-  run({ maxPerRun });
-});
-
-function run(overrides) {
   runBtn.disabled = true;
   statusEl.textContent = "Проверяю алерты...";
 
-  chrome.runtime.sendMessage({ type: "RUN_NOW", overrides }, (response) => {
+  chrome.runtime.sendMessage({ type: "RUN_NOW" }, (response) => {
     runBtn.disabled = false;
 
     if (chrome.runtime.lastError || !response) {
@@ -51,4 +45,4 @@ function run(overrides) {
 
     statusEl.textContent = text;
   });
-}
+});

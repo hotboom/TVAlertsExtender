@@ -34,25 +34,12 @@
     }
     a { color: #2962ff; font-size: 12px; }
     .row { margin-top: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
-    .row input[type="number"] {
-      background: #1e222d;
-      border: 1px solid #2a2e39;
-      border-radius: 3px;
-      color: #d1d4dc;
-      padding: 3px 4px;
-      font-size: 12px;
-    }
   </style>
 </head>
 <body>
   <h3>TV Alert Extender</h3>
 
   <button id="runBtn">Проверить и продлить сейчас</button>
-
-  <div class="row">
-    <label for="limit">Продлить за раз (0 = все):</label>
-    <input type="number" id="limit" min="0" max="200" value="1" style="width:56px;" />
-  </div>
 
   <div id="status">Готово.</div>
 

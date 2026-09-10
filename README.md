@@ -85,7 +85,7 @@ Content-Type: text/plain;charset=UTF-8
 собственных запросов сайта к `pricealerts.tradingview.com`
 (`performance.getEntriesByType("resource")`). Ручных настроек нет.
 
-Первый прогон стоит делать с полем «Продлить за раз» = 1 и смотреть
+Первый прогон стоит делать с `maxPerRun` = 1 в настройках и смотреть
 фоновую консоль (`about:debugging` → Inspect у расширения).
 
 ## Структура проекта
@@ -103,8 +103,8 @@ Content-Type: text/plain;charset=UTF-8
   вкладки tradingview.com, инжект `pageListAlerts`/`pageExtendAlert`
   в её **MAIN-мир** через `executeScript` (чтобы `fetch` шёл с
   `Origin: https://www.tradingview.com` и куками сессии).
-- `popup.html` / `popup.js` — кнопка "Проверить и продлить сейчас",
-  поле «Продлить за раз», статус, ссылка на настройки.
+- `popup.html` / `popup.js` — кнопка "Проверить и продлить сейчас"
+  (использует лимит `maxPerRun` из настроек), статус, ссылка на настройки.
 - `options.html` / `options.js` — пороги, интервал, `maxPerRun`.
 - `icon.png` — плейсхолдер-иконка.
 
@@ -114,10 +114,10 @@ Content-Type: text/plain;charset=UTF-8
 2. "Load Temporary Add-on" → выбрать `manifest.json`
 3. Открой tradingview.com в этом же Firefox, залогинься, открой панель
    Alerts (иконка будильника справа). Аккаунт настраивать не нужно.
-4. Иконка расширения → в поле «Продлить за раз» поставь `1` →
-   **Проверить и продлить сейчас**. Проверь в фоновой консоли, что
-   `modify_restart_alert` вернул `{s:"ok"}` и алерт снова `Active`.
-5. Дальше ставь `0` (все) — либо просто жди суточный alarm.
+4. (Опц.) Иконка → **Настройки** → `maxPerRun` = 1 для первого прогона.
+5. Иконка расширения → **Проверить и продлить сейчас**. Проверь в
+   фоновой консоли, что `modify_restart_alert` вернул `{s:"ok"}` и
+   алерт снова `Active`. Потом верни `maxPerRun` = 0 (все).
 6. Логи: `about:debugging` → "Inspect" у расширения → вкладка Console
    (всё через `console.log("[TV Alert Extender]", ...)`)
 
@@ -140,8 +140,8 @@ Content-Type: text/plain;charset=UTF-8
 - Для каждого собирает whitelist-payload (`buildExtendPayload`) и шлёт
   `modify_restart_alert` с новым `expiration` (+`extendByDays`, дефолт
   30), пауза 500 мс между запросами
-- `maxPerRun` (дефолт 0 = все) ограничивает число продлений за прогон;
-  в popup есть отдельное поле «Продлить за раз» для ручного запуска
+- `maxPerRun` (дефолт 0 = все) ограничивает число продлений за прогон —
+  и для alarm, и для ручного запуска из popup
 - Шлёт системное уведомление, сколько продлено / сколько ошибок
 - Ручной запуск кнопкой в popup — без ожидания alarm
 
