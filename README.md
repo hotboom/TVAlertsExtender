@@ -1,4 +1,4 @@
-# TW Alert Extender
+# TV Alert Extender
 
 Firefox-расширение, которое автоматически продлевает истекающие алерты
 TradingView через внутренний API — чтобы не платить за Premium ради
@@ -118,7 +118,7 @@ Content-Type: text/plain;charset=UTF-8
    фоновой консоли, что `modify_restart_alert` вернул `{s:"ok"}` и
    алерт снова `Active`. Потом верни `maxPerRun` = 0 (все).
 6. Логи: `about:debugging` → "Inspect" у расширения → вкладка Console
-   (всё через `console.log("[TW Alert Extender]", ...)`)
+   (всё через `console.log("[TV Alert Extender]", ...)`)
 
 (Temporary Add-on слетает при перезапуске Firefox — для постоянной
 установки нужно подписать через AMO или включить

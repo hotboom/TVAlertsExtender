@@ -1,4 +1,4 @@
-// TW Alert Extender — background script (MV3 event page; Firefox)
+// TV Alert Extender — background script (MV3 event page; Firefox)
 //
 // Подключается вместе с config.js через "background": { "scripts": [...] },
 // поэтому getConfig / DEFAULT_CONFIG из config.js видны напрямую.
@@ -155,9 +155,9 @@ async function runCheck(overrides = {}) {
   }
 
   if (extended > 0) {
-    notify("TW Alert Extender", `Продлено: ${extended}` + (failures.length ? `, ошибок: ${failures.length}` : ""));
+    notify("TV Alert Extender", `Продлено: ${extended}` + (failures.length ? `, ошибок: ${failures.length}` : ""));
   } else if (failures.length > 0) {
-    notify("TW Alert Extender", `Не удалось продлить: ${failures.length}. Подробности в консоли.`);
+    notify("TV Alert Extender", `Не удалось продлить: ${failures.length}. Подробности в консоли.`);
   }
 
   return {
@@ -279,7 +279,7 @@ function notify(title, message) {
 }
 
 function log(msg) {
-  console.log("[TW Alert Extender]", msg);
+  console.log("[TV Alert Extender]", msg);
 }
 
 function sleep(ms) {
