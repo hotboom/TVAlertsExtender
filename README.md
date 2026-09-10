@@ -4,37 +4,20 @@ Firefox-расширение, которое автоматически прод
 TradingView через внутренний API — чтобы не платить за Premium ради
 одной функции "бессрочный алерт".
 
-## Контекст задачи (коротко, для быстрого ввода в курс — в т.ч. в Claude Code)
-
 TradingView не даёт делать алерты бессрочными ниже тарифа Premium —
-алерт живёт максимум ~2 месяца, дальше нужно вручную продлевать.
-Апгрейд тарифа ради этого невыгоден. Решение — расширение, которое само
-дёргает внутренний (недокументированный) API TradingView через уже
-залогиненную в браузере сессию.
+алерт живёт максимум ~2 месяца, дальше его нужно вручную продлевать.
+Расширение раз в сутки само дёргает внутренний API TradingView через
+уже залогиненную в браузере сессию и продлевает всё, что скоро истечёт
+или уже истекло.
 
-### Что уже подтверждено реальным трафиком (DevTools → Network)
+Запросы к `pricealerts.tradingview.com` выполняются не из background
+(там Origin был бы `moz-extension://…` → 403), а инжектятся через
+`chrome.scripting.executeScript` в **MAIN-мир** открытой вкладки
+`www.tradingview.com` — там Origin и куки сессии естественные.
+`Content-Type: text/plain` и отсутствие кастомных заголовков — чтобы
+не ловить CORS-preflight (сервер его не разрешает).
 
-- Эндпоинт продления:
-  `POST https://pricealerts.tradingview.com/modify_restart_alert`
-  с query-параметрами `log_username`, `maintenance_unset_reason=initial_operated`, `build_time`.
-- Тело запроса — **полный объект алерта целиком** (`conditions`, `symbol`,
-  `resolution`, `message`, `sound_file`, `popup`, `email`, `mobile_push`,
-  `web_hook`, `alert_id` и т.д.), обёрнутый в `{"payload": {...}}`.
-  Продление = переотправка того же объекта с новым `expiration` и новым
-  `client_id` (формат `update_<Date.now()>_<Date.now()>`, это не секрет,
-  просто метка запроса).
-- `Content-Type: text/plain;charset=UTF-8` — намеренно не
-  `application/json`, чтобы избежать CORS-preflight.
-- Ответ сервера содержит `access-control-allow-origin: https://www.tradingview.com`
-  (НЕ wildcard) — значит запрос обязан идти именно с этим Origin.
-  Поэтому фетч выполняется не из background-скрипта расширения (там
-  Origin был бы `moz-extension://...` → 403), а инжектится через
-  `chrome.scripting.executeScript` прямо в открытую вкладку
-  `www.tradingview.com` — там Origin и куки естественные,
-  `credentials: "include"` без ручного вытаскивания кук.
-- Реальный пойманный пример (alert_id 5308487987, BATS:AMZN,
-  Stochastic 14/1/3, expiration продлён примерно на 30 дней) уже
-  учтён в коде `pageExtendAlert()`.
+## Внутренний API TradingView
 
 ### Список алертов — ПОДТВЕРЖДЁН (DevTools → Network, 10.09.2026)
 
@@ -107,6 +90,22 @@ Content-Type: text/plain;charset=UTF-8
   (использует лимит `maxPerRun` из настроек), статус, ссылка на настройки.
 - `options.html` / `options.js` — пороги, интервал, `maxPerRun`.
 - `icon.png` — плейсхолдер-иконка.
+
+## Настройки
+
+Открываются из popup → «Настройки» (или `about:addons` → «Параметры»).
+Хранятся в `chrome.storage.sync`, значения по умолчанию — в `config.js`.
+
+| Настройка | По умолч. | Что делает |
+|---|---|---|
+| **Запас до истечения (дней)** — `thresholdDays` | `5` | Продлевать алерт, если он уже истёк или истечёт в ближайшие N дней. `0` — только уже истёкшие. |
+| **Продлевать на (дней)** — `extendByDays` | `30` | Новый срок жизни: `сейчас + N дней`. |
+| **Максимум продлений за один прогон** — `maxPerRun` | `0` | Ограничитель на один запуск (и alarm, и ручной). `0` — без лимита. Полезно `1` на первый прогон. |
+| **Интервал автопроверки (минут)** — `checkIntervalMinutes` | `1440` | Период `chrome.alarms`. 1440 = раз в сутки. Применяется со следующего запуска расширения. |
+
+Аккаунт (`log_username` / `user_id`) и `build_time` в настройках
+**отсутствуют** — определяются автоматически со страницы TradingView
+(`pageGetContext`).
 
 ## Как загрузить в Firefox (временно, для теста)
 
