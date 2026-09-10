@@ -2,5 +2,6 @@ node_modules/
 *.log
 *.zip
 *.xpi
+_*.html
 .DS_Store
 Thumbs.db

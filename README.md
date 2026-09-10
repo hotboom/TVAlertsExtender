@@ -126,6 +126,32 @@ indicator-алертов. Если оживлять больше, сервер �
 установки нужно подписать через AMO или включить
 `xpinstall.signatures.required = false` в Firefox Developer/ESR.)
 
+## Публикация на addons.mozilla.org
+
+Собрать архив: `bash build.sh` → `tv-alert-extender-<version>.zip`
+(в корне архива — `manifest.json`, без вложенной папки).
+
+В архиве только рантайм-файлы: `manifest.json`, `background.js`,
+`config.js`, `popup.*`, `options.*`, `icon.png`, `icon.svg`. Всё
+остальное (`.git`, `README.md`, `build.sh`, `_*.html`) в архив НЕ идёт.
+
+Перед каждой загрузкой поднимать `version` в `manifest.json`.
+
+Ключевые поля манифеста для AMO:
+- `browser_specific_settings.gecko.id` — **постоянный** ID
+  (`tv-alert-extender@hotboom.github.io`), после первой публикации не менять.
+- `permissions` — `storage`, `alarms`, `notifications`, `scripting`
+  (без `tabs`: `tabs.query({url})` работает по host_permissions).
+- `host_permissions` — только `www.tradingview.com` и
+  `pricealerts.tradingview.com`.
+
+Ревью AMO почти наверняка спросит, зачем инжект в страницу и запросы к
+`pricealerts.tradingview.com`. В поле «Notes to reviewer» коротко:
+расширение действует только над алертами самого пользователя через уже
+залогиненную сессию, внешний недокументированный API TradingView
+вызывается его же куками, данные никуда больше не уходят. Код не
+минифицирован — исходники прилагать отдельно не нужно.
+
 ## Логика работы
 
 - По интервалу (`checkIntervalMinutes`, дефолт 1440 = раз в сутки)

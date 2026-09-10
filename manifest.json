@@ -2,14 +2,14 @@
   "manifest_version": 3,
   "name": "TV Alert Extender",
   "version": "0.1.0",
-  "description": "Автоматически продлевает истекающие алерты TradingView через внутренний API.",
+  "description": "Автоматически продлевает истекающие ценовые алерты TradingView. Не аффилировано с TradingView.",
+  "homepage_url": "https://github.com/hotboom/TVAlertsExtender",
 
   "permissions": [
     "storage",
     "alarms",
     "notifications",
-    "scripting",
-    "tabs"
+    "scripting"
   ],
 
   "host_permissions": [
@@ -46,7 +46,7 @@
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "tv-alert-extender@example.local",
+      "id": "tv-alert-extender@hotboom.github.io",
       "strict_min_version": "128.0"
     }
   }
