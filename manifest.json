@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "TV Alert Extender",
+  "name": "TW Alert Extender",
   "version": "0.1.0",
   "description": "Автоматически продлевает истекающие алерты TradingView через внутренний API.",
 
@@ -23,7 +23,7 @@
 
   "action": {
     "default_popup": "popup.html",
-    "default_title": "TV Alert Extender"
+    "default_title": "TW Alert Extender"
   },
 
   "options_ui": {
